@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`valor` (
   `comissao_empresa` FLOAT NOT NULL,
   `forma_pagamento_idforma_pagamento` INT NOT NULL,
   PRIMARY KEY (`idvalor`),
-  INDEX `fk_valor_forma_pagamento1_idx` (`forma_pagamento_idforma_pagamento` ASC) VISIBLE,
+  INDEX `fk_valor_forma_pagamento1_idx` (`forma_pagamento_idforma_pagamento` ASC),
   CONSTRAINT `fk_valor_forma_pagamento1`
     FOREIGN KEY (`forma_pagamento_idforma_pagamento`)
     REFERENCES `imobiliaria`.`forma_pagamento` (`idforma_pagamento`)
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`usuario` (
   `cpf` VARCHAR(45) NOT NULL,
   `endereco_idendereco` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idusuario`),
-  INDEX `fk_usuario_endereco1_idx` (`endereco_idendereco` ASC) VISIBLE,
+  INDEX `fk_usuario_endereco1_idx` (`endereco_idendereco` ASC),
   CONSTRAINT `fk_usuario_endereco1`
     FOREIGN KEY (`endereco_idendereco`)
     REFERENCES `imobiliaria`.`endereco` (`idendereco`)
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`cliente` (
   `tipo` ENUM('proprientario', 'usuario') NOT NULL,
   `usuario_idusuario` INT NOT NULL,
   PRIMARY KEY (`idcliente`),
-  INDEX `fk_cliente_usuario1_idx` (`usuario_idusuario` ASC) VISIBLE,
+  INDEX `fk_cliente_usuario1_idx` (`usuario_idusuario` ASC),
   CONSTRAINT `fk_cliente_usuario1`
     FOREIGN KEY (`usuario_idusuario`)
     REFERENCES `imobiliaria`.`usuario` (`idusuario`)
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`cliente_proprietario` (
   `descricao` VARCHAR(45) NULL,
   `cliente_idcliente` INT NOT NULL,
   PRIMARY KEY (`idcliente_proprietario`),
-  INDEX `fk_cliente_proprietario_cliente1_idx` (`cliente_idcliente` ASC) VISIBLE,
+  INDEX `fk_cliente_proprietario_cliente1_idx` (`cliente_idcliente` ASC),
   CONSTRAINT `fk_cliente_proprietario_cliente1`
     FOREIGN KEY (`cliente_idcliente`)
     REFERENCES `imobiliaria`.`cliente` (`idcliente`)
@@ -124,8 +124,8 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`imovel` (
   `cliente_proprietario_idcliente_proprietario` INT NOT NULL,
   `endereco_idendereco` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idimovel`),
-  INDEX `fk_imovel_cliente_proprietario1_idx` (`cliente_proprietario_idcliente_proprietario` ASC) VISIBLE,
-  INDEX `fk_imovel_endereco1_idx` (`endereco_idendereco` ASC) VISIBLE,
+  INDEX `fk_imovel_cliente_proprietario1_idx` (`cliente_proprietario_idcliente_proprietario` ASC),
+  INDEX `fk_imovel_endereco1_idx` (`endereco_idendereco` ASC),
   CONSTRAINT `fk_imovel_cliente_proprietario1`
     FOREIGN KEY (`cliente_proprietario_idcliente_proprietario`)
     REFERENCES `imobiliaria`.`cliente_proprietario` (`idcliente_proprietario`)
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`cliente_usuario` (
   `idcliente_imovel` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `cliente_idcliente` INT NOT NULL,
   PRIMARY KEY (`idcliente_imovel`),
-  INDEX `fk_cliente_imovel_cliente1_idx` (`cliente_idcliente` ASC) VISIBLE,
+  INDEX `fk_cliente_imovel_cliente1_idx` (`cliente_idcliente` ASC),
   CONSTRAINT `fk_cliente_imovel_cliente1`
     FOREIGN KEY (`cliente_idcliente`)
     REFERENCES `imobiliaria`.`cliente` (`idcliente`)
@@ -166,9 +166,9 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`transacao` (
   `cliente_usuario_idcliente_imovel` INT UNSIGNED NOT NULL,
   `tipo` ENUM('venda', 'locacao') NOT NULL,
   PRIMARY KEY (`idtransacao`),
-  INDEX `fk_servico_valor1_idx` (`valor_idvalor` ASC) VISIBLE,
-  INDEX `fk_servico_imovel1_idx` (`imovel_idimovel` ASC) VISIBLE,
-  INDEX `fk_servico_cliente_usuario1_idx` (`cliente_usuario_idcliente_imovel` ASC) VISIBLE,
+  INDEX `fk_servico_valor1_idx` (`valor_idvalor` ASC),
+  INDEX `fk_servico_imovel1_idx` (`imovel_idimovel` ASC),
+  INDEX `fk_servico_cliente_usuario1_idx` (`cliente_usuario_idcliente_imovel` ASC),
   CONSTRAINT `fk_servico_valor1`
     FOREIGN KEY (`valor_idvalor`)
     REFERENCES `imobiliaria`.`valor` (`idvalor`)
@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`locacao` (
   `data_devolucao` DATE NOT NULL,
   `transacao_idtransacao` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idlocacao`),
-  INDEX `fk_locacao_transacao1_idx` (`transacao_idtransacao` ASC) VISIBLE)
+  INDEX `fk_locacao_transacao1_idx` (`transacao_idtransacao` ASC))
 ENGINE = MyISAM;
 
 
@@ -207,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`foto` (
   `nome` VARCHAR(45) NOT NULL,
   `imovel_idimovel` INT NOT NULL,
   PRIMARY KEY (`idfoto`),
-  INDEX `fk_foto_imovel1_idx` (`imovel_idimovel` ASC) VISIBLE,
+  INDEX `fk_foto_imovel1_idx` (`imovel_idimovel` ASC),
   CONSTRAINT `fk_foto_imovel1`
     FOREIGN KEY (`imovel_idimovel`)
     REFERENCES `imobiliaria`.`imovel` (`idimovel`)
@@ -231,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`casa` (
   `descricao` VARCHAR(45) NOT NULL,
   `imovel_idimovel` INT NOT NULL,
   PRIMARY KEY (`idcasa`),
-  INDEX `fk_casa_imovel1_idx` (`imovel_idimovel` ASC) VISIBLE,
+  INDEX `fk_casa_imovel1_idx` (`imovel_idimovel` ASC),
   CONSTRAINT `fk_casa_imovel1`
     FOREIGN KEY (`imovel_idimovel`)
     REFERENCES `imobiliaria`.`imovel` (`idimovel`)
@@ -259,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`apartamento` (
   `numero_apartamento` INT NULL,
   `imovel_idimovel` INT NOT NULL,
   PRIMARY KEY (`idapartamento`),
-  INDEX `fk_apartamento_imovel1_idx` (`imovel_idimovel` ASC) VISIBLE,
+  INDEX `fk_apartamento_imovel1_idx` (`imovel_idimovel` ASC),
   CONSTRAINT `fk_apartamento_imovel1`
     FOREIGN KEY (`imovel_idimovel`)
     REFERENCES `imobiliaria`.`imovel` (`idimovel`)
@@ -279,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`terreno` (
   `aclive/declive` TINYINT NOT NULL,
   `imovel_idimovel` INT NOT NULL,
   PRIMARY KEY (`idterreno`),
-  INDEX `fk_terreno_imovel1_idx` (`imovel_idimovel` ASC) VISIBLE,
+  INDEX `fk_terreno_imovel1_idx` (`imovel_idimovel` ASC),
   CONSTRAINT `fk_terreno_imovel1`
     FOREIGN KEY (`imovel_idimovel`)
     REFERENCES `imobiliaria`.`imovel` (`idimovel`)
@@ -298,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`sala_comercial` (
   `comodos` INT NOT NULL,
   `imovel_idimovel` INT NOT NULL,
   PRIMARY KEY (`idsala_comercial`),
-  INDEX `fk_sala_comercial_imovel1_idx` (`imovel_idimovel` ASC) VISIBLE,
+  INDEX `fk_sala_comercial_imovel1_idx` (`imovel_idimovel` ASC),
   CONSTRAINT `fk_sala_comercial_imovel1`
     FOREIGN KEY (`imovel_idimovel`)
     REFERENCES `imobiliaria`.`imovel` (`idimovel`)
@@ -314,7 +314,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`venda` (
   `idvenda` INT NOT NULL,
   `transacao_idtransacao` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idvenda`),
-  INDEX `fk_venda_transacao1_idx` (`transacao_idtransacao` ASC) VISIBLE,
+  INDEX `fk_venda_transacao1_idx` (`transacao_idtransacao` ASC),
   CONSTRAINT `fk_venda_transacao1`
     FOREIGN KEY (`transacao_idtransacao`)
     REFERENCES `imobiliaria`.`transacao` (`idtransacao`)
@@ -346,9 +346,9 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`funcionario` (
   `cargo_idcargo` INT NOT NULL,
   `transacao_idtransacao` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idfuncionario`),
-  INDEX `fk_funcionario_usuario1_idx` (`usuario_idusuario` ASC) VISIBLE,
-  INDEX `fk_funcionario_cargo1_idx` (`cargo_idcargo` ASC) VISIBLE,
-  INDEX `fk_funcionario_transacao1_idx` (`transacao_idtransacao` ASC) VISIBLE,
+  INDEX `fk_funcionario_usuario1_idx` (`usuario_idusuario` ASC),
+  INDEX `fk_funcionario_cargo1_idx` (`cargo_idcargo` ASC),
+  INDEX `fk_funcionario_transacao1_idx` (`transacao_idtransacao` ASC),
   CONSTRAINT `fk_funcionario_usuario1`
     FOREIGN KEY (`usuario_idusuario`)
     REFERENCES `imobiliaria`.`usuario` (`idusuario`)
@@ -375,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`telefone` (
   `numero` VARCHAR(45) NULL,
   `usuario_idusuario` INT NOT NULL,
   PRIMARY KEY (`idtelefone`),
-  INDEX `fk_telefone_usuario1_idx` (`usuario_idusuario` ASC) VISIBLE,
+  INDEX `fk_telefone_usuario1_idx` (`usuario_idusuario` ASC),
   CONSTRAINT `fk_telefone_usuario1`
     FOREIGN KEY (`usuario_idusuario`)
     REFERENCES `imobiliaria`.`usuario` (`idusuario`)
@@ -392,7 +392,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`fiador` (
   `nome` VARCHAR(45) NOT NULL,
   `cliente_imovel_idcliente_imovel` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idfiador`),
-  INDEX `fk_fiador_cliente_imovel_idx` (`cliente_imovel_idcliente_imovel` ASC) VISIBLE,
+  INDEX `fk_fiador_cliente_imovel_idx` (`cliente_imovel_idcliente_imovel` ASC),
   CONSTRAINT `fk_fiador_cliente_imovel`
     FOREIGN KEY (`cliente_imovel_idcliente_imovel`)
     REFERENCES `imobiliaria`.`cliente_usuario` (`idcliente_imovel`)
@@ -410,7 +410,7 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`indicacao` (
   `descricao` VARCHAR(45) NULL,
   `cliente_imovel_idcliente_imovel` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idindicacao`),
-  INDEX `fk_indicacao_cliente_imovel1_idx` (`cliente_imovel_idcliente_imovel` ASC) VISIBLE,
+  INDEX `fk_indicacao_cliente_imovel1_idx` (`cliente_imovel_idcliente_imovel` ASC),
   CONSTRAINT `fk_indicacao_cliente_imovel1`
     FOREIGN KEY (`cliente_imovel_idcliente_imovel`)
     REFERENCES `imobiliaria`.`cliente_usuario` (`idcliente_imovel`)
@@ -430,7 +430,14 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`cartao` (
   `cvv` MEDIUMINT(3) NOT NULL,
   `tipo` ENUM('credito', 'debito') NOT NULL,
   `banco` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idcartao`))
+  `forma_pagamento_idforma_pagamento` INT NOT NULL,
+  PRIMARY KEY (`idcartao`),
+  INDEX `fk_cartao_forma_pagamento1_idx` (`forma_pagamento_idforma_pagamento` ASC),
+  CONSTRAINT `fk_cartao_forma_pagamento1`
+    FOREIGN KEY (`forma_pagamento_idforma_pagamento`)
+    REFERENCES `imobiliaria`.`forma_pagamento` (`idforma_pagamento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -442,7 +449,14 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`boleto` (
   `numero` VARCHAR(50) NOT NULL,
   `data_validade` DATE NOT NULL,
   `data_emissao` DATE NOT NULL,
-  PRIMARY KEY (`idboleto`))
+  `forma_pagamento_idforma_pagamento` INT NOT NULL,
+  PRIMARY KEY (`idboleto`),
+  INDEX `fk_boleto_forma_pagamento1_idx` (`forma_pagamento_idforma_pagamento` ASC),
+  CONSTRAINT `fk_boleto_forma_pagamento1`
+    FOREIGN KEY (`forma_pagamento_idforma_pagamento`)
+    REFERENCES `imobiliaria`.`forma_pagamento` (`idforma_pagamento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -455,7 +469,14 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`cheque` (
   `agencia` VARCHAR(45) NOT NULL,
   `numero_conta` VARCHAR(45) NOT NULL,
   `numero_cheque` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idcheque`))
+  `forma_pagamento_idforma_pagamento` INT NOT NULL,
+  PRIMARY KEY (`idcheque`),
+  INDEX `fk_cheque_forma_pagamento1_idx` (`forma_pagamento_idforma_pagamento` ASC),
+  CONSTRAINT `fk_cheque_forma_pagamento1`
+    FOREIGN KEY (`forma_pagamento_idforma_pagamento`)
+    REFERENCES `imobiliaria`.`forma_pagamento` (`idforma_pagamento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -467,7 +488,14 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`deposito` (
   `banco` VARCHAR(45) NOT NULL,
   `agencia` VARCHAR(45) NOT NULL,
   `conta` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`iddeposito`))
+  `forma_pagamento_idforma_pagamento` INT NOT NULL,
+  PRIMARY KEY (`iddeposito`),
+  INDEX `fk_deposito_forma_pagamento1_idx` (`forma_pagamento_idforma_pagamento` ASC),
+  CONSTRAINT `fk_deposito_forma_pagamento1`
+    FOREIGN KEY (`forma_pagamento_idforma_pagamento`)
+    REFERENCES `imobiliaria`.`forma_pagamento` (`idforma_pagamento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -479,98 +507,10 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`historico` (
   `tipo` ENUM('venda', 'locacao') NOT NULL,
   `transacao_idtransacao` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idhistorico`),
-  INDEX `fk_historico_transacao1_idx` (`transacao_idtransacao` ASC) VISIBLE,
+  INDEX `fk_historico_transacao1_idx` (`transacao_idtransacao` ASC),
   CONSTRAINT `fk_historico_transacao1`
     FOREIGN KEY (`transacao_idtransacao`)
     REFERENCES `imobiliaria`.`transacao` (`idtransacao`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `imobiliaria`.`pagamento_cartao`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imobiliaria`.`pagamento_cartao` (
-  `cartao_idcartao` INT NOT NULL,
-  `forma_pagamento_idforma_pagamento` INT NOT NULL,
-  PRIMARY KEY (`cartao_idcartao`, `forma_pagamento_idforma_pagamento`),
-  INDEX `fk_cartao_has_forma_pagamento_forma_pagamento1_idx` (`forma_pagamento_idforma_pagamento` ASC) VISIBLE,
-  INDEX `fk_cartao_has_forma_pagamento_cartao1_idx` (`cartao_idcartao` ASC) VISIBLE,
-  CONSTRAINT `fk_cartao_has_forma_pagamento_cartao1`
-    FOREIGN KEY (`cartao_idcartao`)
-    REFERENCES `imobiliaria`.`cartao` (`idcartao`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_cartao_has_forma_pagamento_forma_pagamento1`
-    FOREIGN KEY (`forma_pagamento_idforma_pagamento`)
-    REFERENCES `imobiliaria`.`forma_pagamento` (`idforma_pagamento`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `imobiliaria`.`pagamento_cheque`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imobiliaria`.`pagamento_cheque` (
-  `cheque_idcheque` INT NOT NULL,
-  `forma_pagamento_idforma_pagamento` INT NOT NULL,
-  PRIMARY KEY (`cheque_idcheque`, `forma_pagamento_idforma_pagamento`),
-  INDEX `fk_cheque_has_forma_pagamento_forma_pagamento1_idx` (`forma_pagamento_idforma_pagamento` ASC) VISIBLE,
-  INDEX `fk_cheque_has_forma_pagamento_cheque1_idx` (`cheque_idcheque` ASC) VISIBLE,
-  CONSTRAINT `fk_cheque_has_forma_pagamento_cheque1`
-    FOREIGN KEY (`cheque_idcheque`)
-    REFERENCES `imobiliaria`.`cheque` (`idcheque`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_cheque_has_forma_pagamento_forma_pagamento1`
-    FOREIGN KEY (`forma_pagamento_idforma_pagamento`)
-    REFERENCES `imobiliaria`.`forma_pagamento` (`idforma_pagamento`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `imobiliaria`.`pagamento_boleto`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imobiliaria`.`pagamento_boleto` (
-  `boleto_idboleto` INT NOT NULL,
-  `forma_pagamento_idforma_pagamento` INT NOT NULL,
-  PRIMARY KEY (`boleto_idboleto`, `forma_pagamento_idforma_pagamento`),
-  INDEX `fk_boleto_has_forma_pagamento_forma_pagamento1_idx` (`forma_pagamento_idforma_pagamento` ASC) VISIBLE,
-  INDEX `fk_boleto_has_forma_pagamento_boleto1_idx` (`boleto_idboleto` ASC) VISIBLE,
-  CONSTRAINT `fk_boleto_has_forma_pagamento_boleto1`
-    FOREIGN KEY (`boleto_idboleto`)
-    REFERENCES `imobiliaria`.`boleto` (`idboleto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_boleto_has_forma_pagamento_forma_pagamento1`
-    FOREIGN KEY (`forma_pagamento_idforma_pagamento`)
-    REFERENCES `imobiliaria`.`forma_pagamento` (`idforma_pagamento`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `imobiliaria`.`pagamento_deposito`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `imobiliaria`.`pagamento_deposito` (
-  `deposito_iddeposito` INT NOT NULL,
-  `forma_pagamento_idforma_pagamento` INT NOT NULL,
-  PRIMARY KEY (`deposito_iddeposito`, `forma_pagamento_idforma_pagamento`),
-  INDEX `fk_deposito_has_forma_pagamento_forma_pagamento1_idx` (`forma_pagamento_idforma_pagamento` ASC) VISIBLE,
-  INDEX `fk_deposito_has_forma_pagamento_deposito1_idx` (`deposito_iddeposito` ASC) VISIBLE,
-  CONSTRAINT `fk_deposito_has_forma_pagamento_deposito1`
-    FOREIGN KEY (`deposito_iddeposito`)
-    REFERENCES `imobiliaria`.`deposito` (`iddeposito`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_deposito_has_forma_pagamento_forma_pagamento1`
-    FOREIGN KEY (`forma_pagamento_idforma_pagamento`)
-    REFERENCES `imobiliaria`.`forma_pagamento` (`idforma_pagamento`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -584,10 +524,10 @@ CREATE TABLE IF NOT EXISTS `imobiliaria`.`funcionario_transacao` (
   `funcionario_idfuncionario` INT NOT NULL,
   `comissao` FLOAT NOT NULL,
   PRIMARY KEY (`transacao_idtransacao`, `funcionario_idfuncionario`),
-  INDEX `fk_transacao_has_funcionario_funcionario1_idx` (`funcionario_idfuncionario` ASC) VISIBLE,
-  INDEX `fk_transacao_has_funcionario_transacao1_idx` (`transacao_idtransacao` ASC) VISIBLE,
-  UNIQUE INDEX `transacao_idtransacao_UNIQUE` (`transacao_idtransacao` ASC) VISIBLE,
-  UNIQUE INDEX `funcionario_idfuncionario_UNIQUE` (`funcionario_idfuncionario` ASC) VISIBLE,
+  INDEX `fk_transacao_has_funcionario_funcionario1_idx` (`funcionario_idfuncionario` ASC),
+  INDEX `fk_transacao_has_funcionario_transacao1_idx` (`transacao_idtransacao` ASC),
+  UNIQUE INDEX `transacao_idtransacao_UNIQUE` (`transacao_idtransacao` ASC),
+  UNIQUE INDEX `funcionario_idfuncionario_UNIQUE` (`funcionario_idfuncionario` ASC),
   CONSTRAINT `fk_transacao_has_funcionario_transacao1`
     FOREIGN KEY (`transacao_idtransacao`)
     REFERENCES `imobiliaria`.`transacao` (`idtransacao`)
